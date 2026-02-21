@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AgroDetect AI</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>AgroDetect AI</span>
+            </div>
+            <div class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="scan.html">Scan</a></li>
+                    <li><a href="#" id="logoutBtn">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-page">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Welcome, <span id="username">Farmer</span>! 👨‍🌾</h1>
+                <div class="dashboard-controls">
+                    <a href="scan.html" class="btn btn-primary">
+                        <i class="fas fa-camera"></i> New Scan
+                    </a>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="totalScans">0</span>
+                        <span class="stat-label">Total Scans</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="diseasesDetected">0</span>
+                        <span class="stat-label">Diseases</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="healthyPlants">0</span>
+                        <span class="stat-label">Healthy</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="lastScan">-</span>
+                        <span class="stat-label">Last Scan</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; padding: 4rem; background: var(--white); border-radius: var(--radius-lg);">
+                <i class="fas fa-check-circle" style="font-size: 5rem; color: var(--vivid-blue);"></i>
+                <h2>Login Successful! 🎉</h2>
+                <p>You have successfully logged in to AgroDetect AI.</p>
+                <p>Start scanning your plants to detect diseases.</p>
+                <a href="scan.html" class="btn btn-primary btn-large" style="margin-top: 2rem;">
+                    <i class="fas fa-camera"></i> Scan Your First Plant
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+        
+        // Display username
+        if (user.username) {
+            document.getElementById('username').textContent = user.username;
+        }
+        
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        });
+        
+        // Load user data
+        async function loadUserData() {
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update stats with real data
+                    // This would come from your scans API
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+        
+        loadUserData();
+    </script>
+</body>
+</html>

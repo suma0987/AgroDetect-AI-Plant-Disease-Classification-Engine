@@ -1,0 +1,162 @@
+<!-- pages/scan.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Plant - AgroDetect AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/scan.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation (same as index.html) -->
+    <nav class="navbar">
+        <!-- Same navigation code -->
+    </nav>
+
+    <main class="scan-page">
+        <div class="container">
+            <div class="scan-header">
+                <h1>Plant Disease Scanner</h1>
+                <p>Upload or take a photo of the affected leaf for instant analysis</p>
+            </div>
+
+            <div class="scan-container">
+                <!-- Upload Section -->
+                <div class="upload-section" id="uploadSection">
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Drag & Drop or Click to Upload</h3>
+                        <p>Supported formats: JPG, PNG, GIF (Max 10MB)</p>
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                        <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                            Choose Image
+                        </button>
+                    </div>
+
+                    <div class="camera-option">
+                        <span>or</span>
+                        <button class="btn btn-outline" id="openCameraBtn">
+                            <i class="fas fa-camera"></i>
+                            Use Camera
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Camera Section (hidden by default) -->
+                <div class="camera-section" id="cameraSection" style="display: none;">
+                    <div class="camera-preview">
+                        <video id="cameraPreview" autoplay></video>
+                        <div class="camera-controls">
+                            <button class="btn btn-primary" id="captureBtn">
+                                <i class="fas fa-camera"></i>
+                                Capture
+                            </button>
+                            <button class="btn btn-outline" id="closeCameraBtn">
+                                <i class="fas fa-times"></i>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Preview Section -->
+                <div class="preview-section" id="previewSection" style="display: none;">
+                    <div class="preview-container">
+                        <img id="imagePreview" src="" alt="Preview">
+                        <div class="preview-actions">
+                            <button class="btn btn-primary" id="analyzeBtn">
+                                <i class="fas fa-search"></i>
+                                Analyze Image
+                            </button>
+                            <button class="btn btn-outline" id="changeImageBtn">
+                                <i class="fas fa-redo"></i>
+                                Change Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section" id="resultsSection" style="display: none;">
+                    <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Analyzing image...</p>
+                    </div>
+
+                    <div class="results-content" id="resultsContent" style="display: none;">
+                        <div class="results-header">
+                            <h2>Analysis Results</h2>
+                            <div class="language-controls">
+                                <select id="resultLanguage" class="language-select">
+                                    <option value="en">English</option>
+                                    <option value="hi">हिन्दी</option>
+                                    <option value="ta">தமிழ்</option>
+                                </select>
+                                <button class="btn-icon" id="playAudioBtn" title="Listen">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="results-grid">
+                            <div class="result-card disease-info">
+                                <h3><i class="fas fa-leaf"></i> Disease Detected</h3>
+                                <div class="disease-name" id="diseaseName"></div>
+                                <div class="confidence">
+                                    Confidence: <span id="confidenceScore"></span>%
+                                </div>
+                                <div class="severity" id="severityLevel"></div>
+                            </div>
+
+                            <div class="result-card plant-info">
+                                <h3><i class="fas fa-tree"></i> Affected Plants</h3>
+                                <ul id="affectedPlants"></ul>
+                            </div>
+                        </div>
+
+                        <div class="result-card description">
+                            <h3><i class="fas fa-info-circle"></i> Description</h3>
+                            <p id="diseaseDescription"></p>
+                        </div>
+
+                        <div class="result-card symptoms">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Symptoms</h3>
+                            <p id="diseaseSymptoms"></p>
+                        </div>
+
+                        <div class="treatment-section">
+                            <div class="result-card treatment">
+                                <h3><i class="fas fa-medkit"></i> Treatment</h3>
+                                <div id="diseaseTreatment"></div>
+                            </div>
+
+                            <div class="result-card prevention">
+                                <h3><i class="fas fa-shield-alt"></i> Prevention</h3>
+                                <div id="diseasePrevention"></div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+                                <i class="fas fa-chart-bar"></i>
+                                View Dashboard
+                            </button>
+                            <button class="btn btn-outline" id="newScanBtn">
+                                <i class="fas fa-plus"></i>
+                                New Scan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/translator.js"></script>
+    <script src="../js/tts.js"></script>
+    <script src="../js/scanner.js"></script>
+</body>
+</html>
